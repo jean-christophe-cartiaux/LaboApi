@@ -18,8 +18,15 @@ const jwtVerification=(req,res,next) =>{
                     userId:decodeTokenPayload.userId,
                     email:decodeTokenPayload.email
                 };
-                const newToken=
+                const newToken= jwt.sign(newPayload,secret,{expiresIn: '1d'});
+                req.payload=newPayload;
+                req.headers['autorization'] =`Bearer ${newToken}`;
+                next();
+            }else{
+                res.payload=payload
+                next();
             }
         })
     }
-}
+};
+module.exports = jwtVerification;
