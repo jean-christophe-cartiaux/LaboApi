@@ -10,14 +10,14 @@ const userService={
             const {nom,prenom,pseudo,email,mdp,bio}=data;
             const dateCreationProfil=new Date()
             const request = new sql.Request();
-            request
+            request //sanitization
                 .input('nom',sql.NVarChar,nom)
                 .input('prenom',sql.NVarChar,prenom)
                 .input('pseudo',sql.NVarChar,pseudo)
                 .input('email',sql.NVarChar,email)
                 .input('mdp',sql.NVarChar,mdp)
                 .input('dateCreationProfil',sql.DateTime,dateCreationProfil)
-                .input('bio',sql.NVarChar,bio)
+                .input('bio',sql.NVarChar, bio ? bio : null) //! bio ? bio :null  / permet de savoir si bio existe dans se qua la ok bio sinon bio = null
             const result = await request.query('INSERT INTO users (nom,prenom,pseudo,email,mdp,dateCreationPseudo,bio) VALUES(@nom,@prenom,@pseudo,@email,@hasedmdp,@dateCreationPseudo,@bio) ');
             if(result.rowsAffected[0] > 0){
                 return result

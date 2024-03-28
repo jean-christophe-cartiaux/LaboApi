@@ -11,9 +11,9 @@ const usersController={
     register:async(req,res)=>{
         try{
             const bodyValidated =await userValidator.validate(req.body)
-            const {nom,prenom,pseudo,email,mdp}=bodyValidated;
+            const {nom,prenom,pseudo,email,mdp,bio}=bodyValidated;
             const hashedmdp=bcrypt.hashSync(mdp,10);
-            const result=await usersService.register({nom,prenom,pseudo,email,hashedmdp})
+            const result=await usersService.register({nom,prenom,pseudo,email,hashedmdp,bio})
 
             if(result){
                 return res.status(200).json({message:' l\'utilisateur a bien eter enregistré ༼ つ ◕_◕ ༽つ '})
