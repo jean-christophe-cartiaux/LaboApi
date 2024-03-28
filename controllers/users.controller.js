@@ -39,6 +39,14 @@ const usersController={
             res.sendStatus(500);
         }
     },
+    getById:async(req,res)=>{
+        try{
+
+        }catch (err){
+            console.error(err)
+            res.sendStatus(500);
+        }
+    }
 
 }
 module.exports = usersController;
