@@ -5,10 +5,19 @@ const contenueMessagesService =require('../services/contenuMessages.service');
 const authValidator=require('../validators/auth.validator');
 const jwt =require('jsonwebtoken');
 const bcrypt =require('bcrypt');
+const userValidator=require('../validators/users.validators');
 
 const usersController={
     register:async(req,res)=>{
         try{
+            const bodyValidated =await userValidator.validate(req.body)
+            const {nom,prenom,pseudo,email,mdp}=bodyValidated;
+            const hashedmdp=bcrypt.hashSync(mdp,10);
+            const result=await usersService.register({nom,prenom,pseudo,email,hashedmdp})
+
+            if(result){
+                return res.status(200).json({message:' l\'utilisateur a bien eter enregistré ༼ つ ◕_◕ ༽つ '})
+            }
 
         }catch (err){
             console.error(err)
