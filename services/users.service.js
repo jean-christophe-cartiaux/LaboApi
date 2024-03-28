@@ -26,12 +26,17 @@ const userService={
             throw new Error(err)
         }
     },
-    login:async(req,res)=>{
+    login:async(data)=>{
         try{
+            await sql.connect(sqlConfig);
+            const {token,userId}=data;
+            const result = await sql.query `UPDATE users SET jwt =${token} WHERE userId=${userId}`
+        if(result.rowsAffected[0] > 0){
+            return result;
+        }
 
         }catch (err){
-            console.error(err)
-            res.sendStatus(500);
+            throw new Error(err)
         }
     },
     updateUser:async(req,res)=>{

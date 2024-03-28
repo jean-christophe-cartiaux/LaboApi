@@ -26,6 +26,20 @@ const usersController={
     },
     login:async(req,res)=>{
         try{
+            const bodyValidated =await userValidator.validate(req.body)
+            const {email,mdp}=bodyValidated;
+            const user = await usersService.getById(userId);
+
+            if(!user)
+                return res.status(404).json({message:`l'utilisateur avec l'id ${userId} n'existe pas 🙀¯\_(ツ)_/¯`})
+            if(user.jwt){
+                return res.status(200).redirect('/profil')
+            }else if (mdp){
+            const isMdpValide =bcrypt.compareSync(mdp,user.mdp)
+                if (!isMdpValide){
+                    return res.status(401).json({message:`Mots de passe invalide ಠ_ಠ`})
+                }
+            }
 
         }catch (err){
             console.error(err)
