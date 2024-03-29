@@ -4,7 +4,8 @@ const favoritsService =require('../services/favorits.service');
 const contenueMessagesService =require('../services/contenuMessages.service');
 const authValidator=require('../validators/auth.validator');*/
 const jwt =require('jsonwebtoken');
-const bcrypt =require('bcrypt');
+const bcrypt=require('bcrypt')
+
 const userValidator=require('../validators/users.validators');
 const authValidator=require('../validators/auth.validator')
 
@@ -43,7 +44,7 @@ const usersController={
                 if (!isMdpValide){
                     return res.status(401).json({message:`Mots de passe invalide ಠ_ಠ`})
                 }
-                const id=user.id;
+                const id=user.userId;
                 const paylod={
                     userId:id,
                     email:user.email
@@ -53,8 +54,8 @@ const usersController={
                 }
                 const secret = process.env.JWT_SECRET;
                 const token = jwt.sign(paylod,secret,options);
-                const clientJwt=await usersService.addJwt({token,id})//add jwt
-                if(clientJwt){
+                const userJwt=await usersService.addJwt(id,token)//add jwt
+                if(userJwt){
                     res.setHeader('Authorization',`Bearer ${token}`)
                     res.status(200).json({token});
 

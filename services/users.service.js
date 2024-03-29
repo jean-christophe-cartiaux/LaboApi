@@ -74,6 +74,7 @@ const userService={
         try{
             await sql.connect(sqlConfig);
             const request = new sql.Request();
+            console.log(typeof userId)
             const result =await request
                 .input('userId',sql.Int,userId)
                 .input('jwt',sql.NVarChar,jwt)
