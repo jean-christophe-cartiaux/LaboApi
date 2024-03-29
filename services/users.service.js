@@ -47,12 +47,17 @@ const userService={
             res.sendStatus(500);
         }
     },
-    deleteUser:async(req,res)=>{
+    deleteUser:async(userId)=>{
         try{
+            await sql.connect(sqlConfig);
+            const result = await sql.query `DELETE FROM users WHERE userId=${userId}`;
+            if(result.rowsAffected[0] >0){
+                return result
+            }
 
         }catch (err){
             console.error(err)
-            res.sendStatus(500);
+
         }
     },
     getById:async(userId)=>{

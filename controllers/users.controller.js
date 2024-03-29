@@ -79,6 +79,12 @@ const usersController={
     },
     deleteUser:async(req,res)=>{
         try{
+            const {userId}=req.params;
+            const result = await usersService.deleteUser(userId)
+            if(!result){
+                return res.status(404).json({message : `il n'y as pas d'utilisateur a l'id indiquer`})
+            }
+            return  res.status(200).json({message : `l'utilisateur ${userId} a éter supprimer avec succes 🛸👽`})
 
         }catch (err){
             console.error(err)
