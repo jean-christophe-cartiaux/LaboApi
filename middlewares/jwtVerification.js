@@ -3,7 +3,7 @@ const jwt= require('jsonwebtoken');
 const jwtVerification=(req,res,next) =>{
     const secret = process.env.JWT_SECRET
 
-    const authHeader=req.headers['autorization'];
+    const authHeader=req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
     if(!token){
@@ -15,12 +15,12 @@ const jwtVerification=(req,res,next) =>{
             }else if (err && err.name=== 'TokenExpiredError'){
                 const decodeTokenPayload = jwt.decode(token)
                 const newPayload = {
-                    userId:decodeTokenPayload.userId,
+                    userId:decodeTokenPayload.id,
                     email:decodeTokenPayload.email
                 };
                 const newToken= jwt.sign(newPayload,secret,{expiresIn: '1d'});
                 req.payload=newPayload;
-                req.headers['autorization'] =`Bearer ${newToken}`;
+                req.headers['authorization'] =`Bearer ${newToken}`;
                 next();
             }else{
                 res.payload=payload

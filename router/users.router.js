@@ -1,15 +1,15 @@
 const router=require('express').Router();
-const userControler=require('../controllers/users.controller');
+const userController=require('../controllers/users.controller');
 
 router.route('/')
-
-
-    .get(userControler.getById)
+    .get(userController.getById)
 
 router.route('/login')
-    .post(userControler.login)
+    .post(userController.login)
 router.route('/register')
-    .post(userControler.register)
+    .post(userController.register)
 router.route('/profil')
-    .delete(userControler.deleteUser)
-    .patch(userControler.updateUser)
+    .delete(userController.deleteUser)
+    .patch(userController.updateUser)
+
+module.exports = router;
