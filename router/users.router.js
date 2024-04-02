@@ -8,6 +8,7 @@ router.route('/login')
     .post(userController.login)
 router.route('/register')
     .post(userController.register)
+
 router.route('/profil/:userId')
 
     .patch(userController.updateUser)
