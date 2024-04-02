@@ -71,7 +71,7 @@ const usersController={
     },
     updateUser:async(req,res)=>{
         try{
-            const {userId} = req.params;
+            const userId = req.params.userId;
             const {pseudo,email,oldMdp,newMdp,prenom,nom,bio}=req.body;
 
             const user=await usersService.getById(userId)
