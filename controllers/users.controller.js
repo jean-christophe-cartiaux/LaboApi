@@ -71,11 +71,45 @@ const usersController={
     },
     updateUser:async(req,res)=>{
         try{
+            const {userId} = req.params;
+            const {pseudo,email,oldMdp,newMdp,prenom,nom,bio}=req.body;
 
-        }catch (err){
+            const user=await usersService.getById(userId)
+
+            if(!user){
+                return res.status(404).json({message:`notre Alien avec l'id : ${userId}  a disparue dans l'espace 👽🛸`})
+            }
+            let updateUser=[];
+            if (newMdp && oldMdp) {
+                const isMdpValid = bcrypt.compareSync(oldMdp, user.mdp);
+                if (!isMdpValid) {
+                    return res.status(401).json({message: 'Mdp incorecte 🔨'})
+                } else {
+                    const hashedMdp = bcrypt.hashSync(newMdp, 10);
+                    updateUser.push(`New MDP  = '${hashedMdp}'`);
+                }
+            }
+
+            if (nom) updateUser.push(`nom = '${nom}'`)
+            if (prenom) updateUser.push(`prenom = '${prenom}'`)
+            if (bio) updateUser.push(`bio = '${bio}'`)
+            if (pseudo) updateUser.push(`pseudo = '${pseudo}'`)
+            if (email) updateUser.push(`email = '${email}'`)
+
+            const result = await usersService.updateUser(user, updateUser);
+
+            if (result) {
+                return res.status(200).json({message: `l'Alien : ${userId} a bien été modifié 🛸👽`})
+            } else {
+                return res.status(500).json({message: `Le serveur a recontré une erreur`})
+            }
+
+        } catch (err) {
             console.error(err)
-            res.sendStatus(500);
+            res.sendStatus(500)
         }
+
+
     },
     deleteUser:async(req,res)=>{
         try{
@@ -93,7 +127,7 @@ const usersController={
     },
     getById:async(req,res)=>{
         try{
-            const {userId}=req.payload;
+            const userId =req.params.userId;
             const user=await usersService.getById(userId);
             if(!user){
                 res.status(404).json({message:`Alien Introuvable 🛸👽`})

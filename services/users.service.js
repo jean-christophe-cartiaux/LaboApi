@@ -39,12 +39,17 @@ const userService={
             throw new Error(err)
         }
     },
-    updateUser:async(req,res)=>{
+    updateUser:async(user,data)=>{
         try{
+            await sql.connect(sqlConfig);
+            const updateQuery=`UPDATE users SET ${data.join(', ')} WHERE userId=${user.userId}`;
+            const result =await sql.query(updateQuery);
+            return (result.rowsAffected[0] >0)
+
 
         }catch (err){
             console.error(err)
-            res.sendStatus(500);
+
         }
     },
     deleteUser:async(userId)=>{

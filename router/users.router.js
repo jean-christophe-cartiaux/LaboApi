@@ -1,7 +1,7 @@
 const router=require('express').Router();
 const userController=require('../controllers/users.controller');
 
-router.route('/')
+router.route('/:userId')
     .get(userController.getById)
 
 router.route('/login')
