@@ -9,10 +9,10 @@ router.route('/login')
 router.route('/register')
     .post(userController.register)
 
-router.route('/profil/:userId')
 
-    .patch(userController.updateUser)
+
 router.route('/profil/:userId')
+    .patch(userController.updateUser)
     .delete(userController.deleteUser)
 
 module.exports = router;
