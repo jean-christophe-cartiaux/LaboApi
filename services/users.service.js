@@ -46,8 +46,6 @@ const userService={
             const result =await sql.query(updateQuery);
             return (result.rowsAffected[0] >0)
 
-
-
         }catch (err){
             console.error(err)
 
